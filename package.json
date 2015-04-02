@@ -1,0 +1,22 @@
+{
+  "name": "JPerL4",
+  "version": "1.0.0",
+  "description": "Personal media library with javascript",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmgudeman/JPerL4.git"
+  },
+  "author": "David Gudeman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmgudeman/JPerL4/issues"
+  },
+  "homepage": "https://github.com/dmgudeman/JPerL4",
+  "dependencies": {
+    "pg": "^4.3.0"
+  }
+}

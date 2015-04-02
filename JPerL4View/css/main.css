@@ -1,0 +1,86 @@
+
+.search {
+	height:35px;
+	width:800px;
+	margin: 50px 0px 65px 0px;
+}
+
+
+
+.textList {
+	height:250px;
+	width:800px;
+}
+
+.button {
+	padding: 10px 0px 0px 0px;
+	text-decoration:none;
+	border-radius:3px;
+	background-color:#ccc;
+	height: 50px;
+	font: 20px "Geneva", sans-serif;
+}
+
+.button-primary{
+	background:slategrey;
+	color:#fff;
+	width:792px;
+	display:inline-block;
+	margin: 4px 2px 4px 4px;
+
+
+}
+.button-secondary{
+	background:slategrey;
+	color:#fff;
+	width:390px;
+	display:inline-block;
+	margin:4px;
+
+
+}
+
+.button:hover {
+	background:green;
+	text-decoration:none;
+}
+.marquis {
+	width:800px;
+	padding-left: 235px;
+
+	padding: 5px 5px 5px 300px;
+	border-radius: 10px;
+	font-family:'Geneva';
+
+	
+}
+
+
+
+
+
+body {
+	background-color:#DEFDFD;
+	font-family: 14px " Geneva", sans-serif;
+}
+
+.addSubView{
+	background-color:#63BF67; 
+}
+.allMedia{
+	display: block;
+	height: 30px;
+	width: 600px;
+	background-color: gray;
+	font-family: 14px " Geneva", sans-serif;
+
+}
+
+.borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+    border: none;
+}
+
+
+
+
+
