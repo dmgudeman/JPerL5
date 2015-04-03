@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/dmgudeman/JPerL4",
   "dependencies": {
+   "express": "2.4.5",
     "pg": "^4.3.0"
   }
 }

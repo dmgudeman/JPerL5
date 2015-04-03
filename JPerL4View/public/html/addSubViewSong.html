@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title class="title1 col-sm-12">Bootstrap Book Example</title>
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../css/main.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.min.js"></script> 
+
+</head>
+<body class="addSubView">
+	<div class = "container">
+        <h1 class="marquis">Add a Song</h1>
+
+
+
+        <form action="/api/song" id = "addSongForm">
+
+        <table class="table borderless">
+            <thead>
+               <th class="col-sm-1"></th>
+               <th class="col-sm-9"></th>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-right">Enter title:</td>
+                <td> 
+                    <input type="text" name="title" size="80" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Enter artist:</td>
+                <td> 
+                    <input type="text" name="artist" size="80" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Enter genre:</td>
+                <td> 
+                    <input type="text" name="genre" size="80" value=""/>
+                </td>
+            </tr>    
+            <tr>
+                <td class="text-right">Enter format:</td>
+                <td> 
+                    <input type="text" name="format" size="80" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Enter location:</td>
+                <td> 
+                    <input type="text" name="location" size="80" value=""/>
+                </td>
+            </tr>   
+            </tbody>
+            </table>    
+                Enter notes: <br />
+                 <textarea class="textList" name="notes" rows="10" cols="48"></textarea>
+            </p>
+             <input type="submit" class="btn button button-primary" value=" add a song">
+    </form>
+   <div id="results"> </div>
+   <!-- <a href="#" class="btn button button-primary">Add a Song to your library</a> -->
+   
+    <a href="songView.html" class="btn button button-secondary">Back</a>
+    <a href="#" class="btn button button-secondary">Print</a>
+
+    <!--<button type="button" class="btn button button-primary col-sm-6">All Media</button>-->
+    <script>
+    //Query.ajaxSetup({ jsonp: null, jsonpCallback: null}); 
+    $("addSongForm").submit(function(event) {
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        // get some elements on the page
+        var $form = $(this),
+           title = $form.find( "input[name = 'title']").val(),
+           artist = $form.find( "input[name = 'artist']").val(),
+           genre = $form.find( "input[name = 'genre']").val(),
+           format = $form.find( "input[name = 'format']").val(),
+           location = $form.find( "input[name = 'location']").val(),
+           notes = $form.find( "textarea[name = 'notes']").text(),
+           url = $form.attr( "action");
+
+
+        //send the data using post
+        var posting = $.post(url, { "title": title,
+            "artist": artist,
+            "genre": genre,
+            "format": format,
+            "location": location,
+            "notes": notes}, "json");
+
+        //put the results in a div
+        posting.done(function( data ) {
+          
+            $( "results" ).empty().append( data );
+        });
+        return false;
+    });
+    </script>   
+  
+    
+     </div>
+
+
+
+	
+</body>
+</html>
