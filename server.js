@@ -1,114 +1,77 @@
-/*************************************************************************************************************
- *
- * Developed by : Tinniam V Ganesh                                  Date: 20 July 2014
- * A Node.js server with PostgreSQL DB
- * 
- *************************************************************************************************************/
-var pg = require("pg")
-var http = require("http")
-var port = 5433;
-var host = '127.0.0.1';
+var express = require('express')
+  , app = express.createServer(express.logger())
+  , pg = require('pg')
+  , connectionString = process.env.DATABASE_URL || 'postgres://postgres:Printer238@localhost:5433/JPerL'
+  , start = new Date()
+  , port = 80
+  , client;
 
-//Insert 2 records into the emps table
-var insert_records = function(req, res) {
-   console.log("In insert");
-   // Connect to DB
-   var conString = "pg://postgres:postgres@localhost:5432/employees";
-   var client = new pg.Client(conString);
-   client.connect(); 
+client = new pg.Client(connectionString);
+client.connect();
+var flash = require('express-flash');
 
-   //Drop table if it exists
-   client.query("DROP TABLE IF EXISTS emps");
+app.configure(function(){
+    app.use(flash());
+    app.use(express.cookieParser('keyboard cat'));
+    app.use(express.session({ cookie: { maxAge: 60000 }, secret: 'topsecret'}));
+    app.use(express.bodyParser());
+    app.use(app.router);
+    app.use(express.compress());
+    app.use(express.static(__dirname + '/JPerL4View/public'));    
+});
 
-   // Creat table and insert 2 records into it
-   client.query("CREATE TABLE IF NOT EXISTS emps(firstname varchar(64), lastname varchar(64))");
-   client.query("INSERT INTO emps(firstname, lastname) values($1, $2)", ['Tinniam', 'Ganesh']);
-   client.query("INSERT INTO emps(firstname, lastname) values($1, $2)", ['Anand', 'Karthik']);
+app.get('/api/song', function(req, res) {
+  console.log("req: " + JSON.stringify(req.query));
+  var title = req.query.title;
+  var location = req.query.location;
+  var format = req.query.format;
+  var notes = req.query.notes;
+  var artist = req.query.artist;
+  var genre = req.query.genre;
 
-   // Write output
-   res.writeHead(200, {'Content-Type': 'text/plain'});
-   res.write("2 records is inserted.\n");
-   res.end();
-   console.log("Inserted 2 records");
-   }
+  client.query('INSERT INTO songs(title, location, format, notes, artist, genre) VALUES($1, $2, $3, $4, $5, $6)', [title, location, format, notes, artist, genre]);
+  
+  query = client.query('SELECT * FROM songs');
+  query.on('row', function(result) {
+    console.log(result);
 
+    if (!result) {
+     // return res.send('No data found');
+    } else {
+     // res.send('Song: ' + result.title);
+    }
+  }); 
+req.flash('info', 'song inserted');
+//res.send("inserted song");
+});
 
-// List records the records in the emps table
-var list_records = function(req, res) {
-   console.log("In listing records");
+// textArea in songView
+app.get('/api/songs', function(req, res) {
+  var songString = "";
+  query = client.query('SELECT title FROM songs');
 
-  // Connect to DB
-  var conString = "pg://postgres:postgres@localhost:5432/employees";
-  var client = new pg.Client(conString);
-  client.connect(); 
+  query.on('row', function(result) {
+   console.log(JSON.stringify(result)); 
+   console.log("hello");
+    if (!result) {
 
-  // Select all rows in the table
-  var query = client.query("SELECT firstname, lastname FROM emps ORDER BY lastname, firstname");
-  query.on("row", function (row, result) {
-    	 result.addRow(row);
-   });
-   query.on("end", function (result) {
-      
-   // On end JSONify and write the results to console and to HTML output
-   console.log(JSON.stringify(result.rows, null, "    "));
-    	res.writeHead(200, {'Content-Type': 'text/plain'});
-    	res.write(JSON.stringify(result.rows) + "\n");
-    	res.end();
-   });
-}
-
-// Update a record in the emps table
-var update_record = function(req, res) {
-    console.log("In update");
-
-    // Connect to DB
-    var conString = "pg://postgres:postgres@localhost:5432/employees";
-    var client = new pg.Client(conString);
-    client.connect(); 
-
-    // Update the record where the firstname is Anand
-    query = client.query("UPDATE emps set firstname = 'Kumar' WHERE firstname='Anand' AND lastname='Karthik'");
-     	res.writeHead(200, {'Content-Type': 'text/plain'});
-     	res.write("Updated record  - Set record with firstname Anand to Kumar\n");
-     	res.end();
-    console.log("Updated record - Set record with firstname Anand to Kumar");
-   }
-
-//Delete record
-var delete_record = function(req, res) {
-   console.log("In delete");
-
-   // Connect to DB
-   var conString = "pg://postgres:postgres@localhost:5432/employees";
-    var client = new pg.Client(conString);
-    client.connect(); 
-
-    // Delete the record where the lastname is Karthik
-    client.query("DELETE FROM  emps WHERE lastname = 'Karthik'");
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write("Deleted record where lastname was Karthik\n");
-    res.end();
-    console.log("Deleted record where lastname was Karthik");
-    
-}
-
-
-// Create a server 
-http.createServer(function(req, res) {
-     
-     if(req.method == 'POST') {
-            insert_records(req,res);
-     }
-     else if(req.method == 'GET') {
-         list_records(req,res);
-     }
-     else if(req.method == 'PUT') {
-         update_record(req,res);
-     }
-     else if(req.method == 'DELETE') {
-         delete_record(req,res);
-     }
-     
-    
-}).listen(port,host);
-console.log("Connected to " + port + "   " + host);
+     return res.send('No data found');
+    } else {
+     //  var songString = "";
+      //for(var i = 0; i < result.length; i++){
+       // songString 
+      //}
+     //res.send('Song: ' + result.title);
+     songString += (result.title + "<br />");
+    }
+  }); 
+req.flash('info', 'song inserted');
+query.on( 'end', function() {
+  res.send(songString);
+    client.end();
+});
+//res.send("inserted song");
+});
+app.listen(port, function() {
+  console.log('Listening on:', port);
+});

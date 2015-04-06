@@ -96,7 +96,9 @@
         //put the results in a div
         posting.done(function( data ) {
           
-            $( "results" ).empty().append( data );
+            //$( "results" ).empty().append( "inserted song" );
+            $("title").empty();
+
         });
         return false;
     });
