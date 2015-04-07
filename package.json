@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/dmgudeman/JPerL4",
   "dependencies": {
-    "express": "2.4.5",
+    "body-parser": "^1.12.2",
+    "express": "^4.12.3",
     "express-flash": "git://github.com/RGBboy/express-flash.git",
     "pg": "^4.3.0"
   }

@@ -1,20 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!doctype html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta charset="utf-8">
 	<title class="title1 col-sm-12">Bootstrap Book Example</title>
 	<link href="../css/bootstrap.css" rel="stylesheet">
 	<link href="../css/main.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.min.js"></script> 
 
 </head>
 <body class="addSubView">
 	<div class = "container">
         <h1 class="marquis">Add a Song</h1>
-
-
 
         <form action="/api/song" id = "addSongForm">
 
@@ -62,14 +59,64 @@
              <input type="submit" class="btn button button-primary" value=" add a song">
     </form>
    <div id="results"> </div>
-   <!-- <a href="#" class="btn button button-primary">Add a Song to your library</a> -->
-   
     <a href="songView.html" class="btn button button-secondary">Back</a>
     <a href="#" class="btn button button-secondary">Print</a>
-
-    <!--<button type="button" class="btn button button-primary col-sm-6">All Media</button>-->
     <script>
-    //Query.ajaxSetup({ jsonp: null, jsonpCallback: null}); 
+    // Attach a submit handler to the form
+$( "#addSubViewSongForm" ).submit(function( event ) {
+ 
+  // Stop form from submitting normally
+  event.preventDefault();
+ 
+  // Get some values from elements on the page:
+  var $form = $( this ),
+    term = $form.find( "input[name='title']" ).val(),
+     artist = $form.find( "input[name = 'artist']").val(),
+     genre = $form.find( "input[name = 'genre']").val(),
+     format = $form.find( "input[name = 'format']").val(),
+           location = $form.find( "input[name = 'location']").val(),
+           notes = $form.find( "textarea[name = 'notes']").text(),
+           url = $form.attr( "action");
+ 
+  // Send the data using post
+  var posting = $.post( url, { title: term },
+      function(data, textStatus, jqXHR) {
+            console.log(JSON.stringify(data));
+            $( "#result" ).empty().append(data.title);
+       }
+    );
+});
+ /*$(document).on('click', '.addSongForm', function(e) {
+     e.preventDefault();
+    $.ajax({
+        url: $(this).attr('action'),
+        type: $(this).attr('method'),
+        data: $(this).serialize(),
+        success: function(html) {
+            alert('OK');
+        }
+    });
+   return false;
+ }); */
+/*$(document).on('click', '.addSongForm', function (x) {
+    x.preventDefault();  //commented out because it's not working
+     
+    $.ajax({
+         url:$(this).attr('action'),//formdestination is a hidden field, showing where to submit the form
+         type: $(this).attr('method'),
+         dataType: 'html',
+         data: $(this).serialize(),
+         success: function (data) {
+             alert("hi");
+         } 
+    }).fail(function () {
+        alert("error");
+    });
+});
+
+
+
+ /*   //Query.ajaxSetup({ jsonp: null, jsonpCallback: null}); 
     $("addSongForm").submit(function(event) {
         // Stop form from submitting normally
         event.preventDefault();
@@ -101,14 +148,8 @@
 
         });
         return false;
-    });
-    </script>   
-  
-    
-     </div>
-
-
-
-	
+    }); */
+    </script>     
+     
 </body>
 </html>
