@@ -22,7 +22,7 @@
             <tr>
                 <td class="text-right">Enter title:</td>
                 <td> 
-                    <input type="text" name="title" size="80" value=""/>
+                    <input id ="a" type="text" name="title" size="80" value=""/>
                 </td>
             </tr>
             <tr>
@@ -82,9 +82,11 @@
             var posting = $.post( url, { title: title, artist: artist, genre:genre, format:format,location:location,notes:notes },
 	            function(data, textStatus, jqXHR) {
 	    	      console.log(JSON.stringify(data));
-   			      $( "#result" ).empty().append(data.title);
+   			    //  $( "#result" ).empty().append(data.title);
+                 $('input:text').val('');
 	            }
 	       );
+             
         });
     </script>
     </div>
