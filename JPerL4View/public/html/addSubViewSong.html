@@ -52,7 +52,7 @@
             </tbody>
             </table>    
                 Enter notes: <br />
-                 <textarea class="textList" name="notes" rows="10" cols="48"></textarea>
+                 <textarea id="TA" class="textList" name="notes" rows="10" cols="48"></textarea>
             </p>
              <input type="submit" class="btn button button-primary" value=" add a song">
     </form>
@@ -75,7 +75,7 @@
                 genre = $form.find( "input[name = 'genre']").val(),
                 format = $form.find( "input[name = 'format']").val(),
                 location = $form.find( "input[name = 'location']").val(),
-                notes = $form.find( "textarea[name = 'notes']").text(),
+                notes = $form.find( "textarea[name = 'notes']").val(),
                 url = $form.attr( "action" );
  
         // Send the data using post
@@ -84,6 +84,7 @@
 	    	      console.log(JSON.stringify(data));
    			    //  $( "#result" ).empty().append(data.title);
                  $('input:text').val('');
+                 $('#TA').val('');
 	            }
 	       );
              

@@ -67,6 +67,10 @@ body {
 .addSubView{
 	background-color:#63BF67; 
 }
+
+.songView{
+	background-color: #E69943;
+}
 .allMedia{
 	display: block;
 	height: 30px;
