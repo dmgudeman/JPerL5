@@ -5,7 +5,9 @@
   <title>jQuery.post demo</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
-<body>
+<body class="addSubView">
+<div class = "container">
+ <h1 class="marquis">Add a Song</h1>
  
 <form action="/api/song" id="addSubViewSongForm">
   <input type="text" name="title" placeholder="Enter title...">
@@ -30,10 +32,10 @@ $( "#addSubViewSongForm" ).submit(function( event ) {
   var $form = $( this ),
     title = $form.find( "input[name='title']" ).val(),
     artist = $form.find( "input[name = 'artist']").val(),
-     genre = $form.find( "input[name = 'genre']").val(),
-     format = $form.find( "input[name = 'format']").val(),
-           location = $form.find( "input[name = 'location']").val(),
-           notes = $form.find( "textarea[name = 'notes']").text(),
+    genre = $form.find( "input[name = 'genre']").val(),
+    format = $form.find( "input[name = 'format']").val(),
+    location = $form.find( "input[name = 'location']").val(),
+    notes = $form.find( "textarea[name = 'notes']").text(),
     url = $form.attr( "action" );
  
   // Send the data using post
@@ -45,6 +47,6 @@ $( "#addSubViewSongForm" ).submit(function( event ) {
 	);
 });
 </script>
- 
+ </div>
 </body>
 </html>
