@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title class="title1 col-sm-12">Bootstrap Book Example</title>
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../css/main.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script> 
+
+</head>
+<body class="addSubView">
+	<div class = "container">
+        <h1 class="marquis">Add a Song</h1>
+
+        <form action="/api/song" id = "addSongForm">
+
+        <table class="table borderless">
+            <thead>
+               <th class="col-sm-1"></th>
+               <th class="col-sm-9"></th>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-right">Enter title:</td>
+                <td> 
+                    <input type="text" name="title" size="80" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Enter artist:</td>
+                <td> 
+                    <input type="text" name="artist" size="80" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Enter genre:</td>
+                <td> 
+                    <input type="text" name="genre" size="80" value=""/>
+                </td>
+            </tr>    
+            <tr>
+                <td class="text-right">Enter format:</td>
+                <td> 
+                    <input type="text" name="format" size="80" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-right">Enter location:</td>
+                <td> 
+                    <input type="text" name="location" size="80" value=""/>
+                </td>
+            </tr>   
+            </tbody>
+            </table>    
+                Enter notes: <br />
+                 <textarea class="textList" name="notes" rows="10" cols="48"></textarea>
+            </p>
+             <input type="submit" class="btn button button-primary" value=" add a song">
+    </form>
+   <div id="results"> </div>
+    <a href="songView.html" class="btn button button-secondary">Back</a>
+    <a href="#" class="btn button button-secondary">Print</a>
+    <script>
+    // Attach a submit handler to the form
+$( "#addSubViewSongForm" ).submit(function( event ) {
+ 
+  // Stop form from submitting normally
+  event.preventDefault();
+ 
+  // Get some values from elements on the page:
+  var $form = $( this ),
+    term = $form.find( "input[name='title']" ).val(),
+     artist = $form.find( "input[name = 'artist']").val(),
+     genre = $form.find( "input[name = 'genre']").val(),
+     format = $form.find( "input[name = 'format']").val(),
+           location = $form.find( "input[name = 'location']").val(),
+           notes = $form.find( "textarea[name = 'notes']").text(),
+           url = $form.attr( "action");
+ 
+  // Send the data using post
+  var posting = $.post( url, { title: term },
+      function(data, textStatus, jqXHR) {
+            console.log(JSON.stringify(data));
+            $( "#result" ).empty().append(data.title);
+       }
+    );
+});
+ /*$(document).on('click', '.addSongForm', function(e) {
+     e.preventDefault();
+    $.ajax({
+        url: $(this).attr('action'),
+        type: $(this).attr('method'),
+        data: $(this).serialize(),
+        success: function(html) {
+            alert('OK');
+        }
+    });
+   return false;
+ }); */
+/*$(document).on('click', '.addSongForm', function (x) {
+    x.preventDefault();  //commented out because it's not working
+     
+    $.ajax({
+         url:$(this).attr('action'),//formdestination is a hidden field, showing where to submit the form
+         type: $(this).attr('method'),
+         dataType: 'html',
+         data: $(this).serialize(),
+         success: function (data) {
+             alert("hi");
+         } 
+    }).fail(function () {
+        alert("error");
+    });
+});
+
+
+
+ /*   //Query.ajaxSetup({ jsonp: null, jsonpCallback: null}); 
+    $("addSongForm").submit(function(event) {
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        // get some elements on the page
+        var $form = $(this),
+           title = $form.find( "input[name = 'title']").val(),
+           artist = $form.find( "input[name = 'artist']").val(),
+           genre = $form.find( "input[name = 'genre']").val(),
+           format = $form.find( "input[name = 'format']").val(),
+           location = $form.find( "input[name = 'location']").val(),
+           notes = $form.find( "textarea[name = 'notes']").text(),
+           url = $form.attr( "action");
+
+
+        //send the data using post
+        var posting = $.post(url, { "title": title,
+            "artist": artist,
+            "genre": genre,
+            "format": format,
+            "location": location,
+            "notes": notes}, "json");
+
+        //put the results in a div
+        posting.done(function( data ) {
+          
+            //$( "results" ).empty().append( "inserted song" );
+            $("title").empty();
+
+        });
+        return false;
+    }); */
+    </script>     
+     
+</body>
+</html>
